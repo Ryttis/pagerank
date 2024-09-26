@@ -14,17 +14,9 @@ class FetchPageRankJob implements ShouldQueue
     use Queueable;
 
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Execute the job.
      */
-    public function handle()
+    public function handle() :void
     {
         $domains = json_decode(file_get_contents('https://raw.githubusercontent.com/Kikobeats/top-sites/master/top-sites.json'), true);
 
