@@ -18,7 +18,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: myadmin
     environment:
-      PMA_HOST: my_mysql
+      PMA_HOST: mysql
       PMA_USER: myuser
       PMA_PASSWORD: mypassword
     ports:
