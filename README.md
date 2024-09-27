@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PageRank Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+This Laravel-based application fetches the PageRank of a list of domains from an external API (OpenPageRank) and displays the results in a Vue.js-powered web interface. The data is paginated, and users can search for specific domains.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+- Fetches domain PageRank data using the OpenPageRank API.
+- Saves or updates the PageRank for each domain in the database.
+- Displays a paginated list of 100 domains per page.
+- Includes a search feature to filter domains by name.
+- Automatically fetches and updates PageRank data daily via a scheduled Laravel job.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
+- **PHP 8.0+**
+- **Composer**
+- **Node.js with npm**
+- **MySQL or another supported database**
+- **OpenPageRank API Key** (`ws48csg0cow0w4kg0gck4oc8wo80kcg8w0g4s08k`)
 
-## Learning Laravel
+### Step-by-Step Guide
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the Repository:**
+   ```bash
+   git clone git@github.com:Ryttis/pagerank.git
+   cd PageRankApp
+2. **Install PHP dependencies: Use Composer to install the necessary Laravel dependencies:**
+   ```bash
+   composer install
+3. **Install JavaScript dependencies: Use npm to install Vue.js and other frontend dependencies:**
+   ```bash
+   npm install
+4. **Set up the environment: Copy the example environment file and configure it to match your setup:**
+   ```bash
+   cp .env.example .env
+5. **Update the .env file with your database credentials, API keys, and other environment-specific settings.**
+6. **Generate an application key: Generate the application key for Laravel:**
+   ```` bash
+   php artisan key:generate
+7. **Run database migrations: Migrate the database schema to create necessary tables:**
+   ````bash
+   php artisan migrate
+8. **Compile frontend assets: Compile and bundle the frontend (Vue.js) assets using Vite:**
+   ````bash
+   npm run dev
+9. **Run the application: Start the Laravel development server:**
+   ````bash
+   php artisan serve
+10. **Run background job manually (Optional for testing purposes): If you want to manually fetch the PageRank data from the OpenPageRank API:**
+   ````bash
+   php artisan fetch:page-rank     .
+   ````
+# Done Tasks
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Fetching and Storing PageRank Data:
+- The application makes a daily API call to the OpenPageRank API and retrieves the PageRank of each domain from the provided JSON file.
+- A Laravel job (`FetchPageRankJob`) was created to handle the API call and store the PageRank data in the database. It either saves new data or updates existing records.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Vue.js Web Interface:
+- The web page is built using Vue.js, displaying a paginated list of 100 domains per page.
+- A search input is available to filter the list of domains by their names.
 
-## Laravel Sponsors
+### Pagination and Search:
+- The domains are displayed in a table with pagination, and a search box allows users to quickly find a specific domain.
+- Both functionalities are handled in the Vue component `DomainList.vue`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Explanation of Key Components
 
-### Premium Partners
+### Laravel Job (`FetchPageRankJob`):
+This is the core feature that fetches the PageRank data daily from the API and updates the database. It utilizes Laravel's job dispatching and queue systems.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Vue.js Frontend:
+The list of domains is managed and rendered by the `DomainList.vue` component, which interacts with the API to fetch and display paginated domain data. Tailwind CSS is used for styling the component.
 
-## Contributing
+### Tailwind CSS:
+We use Tailwind CSS for styling the Vue component, providing a responsive and modern UI. The classes like `text-center`, `px-4`, `py-2`, etc., help align the content effectively.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Daily Job Scheduling:
+The Laravel Scheduler is used to ensure that the `FetchPageRankJob` runs daily. This is done in the `routes/console.php` file.
 
-## Code of Conduct
+# Running Tests
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**To run the automated tests, including those for fetching domain data and checking pagination:**
+````bash
+    php artisan test
+````
+**The test cases are located in the tests/Feature directory, including:**
 
-## Security Vulnerabilities
+- **PageRankControllerTest: Tests for the /api/domains endpoint to ensure the correct domain data is returned with pagination.**
+- **FetchPageRankJobTest is a test case designed to verify the functionality of the FetchPageRankJob class in Laravel,**
+**which is responsible for fetching and storing the PageRank data from the OpenPageRank API. This job typically runs on a schedule,**
+**but for testing purposes, you can simulate its execution and confirm that it behaves as expected.**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
